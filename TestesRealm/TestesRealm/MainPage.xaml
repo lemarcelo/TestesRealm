@@ -8,16 +8,23 @@
 
     <StackLayout Spacing="20" VerticalOptions="Center" Margin="0,20,0,0">
 
-        <Entry Text="Nome" Placeholder="Nome" x:Name="Nome" />
-        <Entry Text="Quantidade" Placeholder="Quantidade" x:Name="Quantidade" />
+        <Entry Keyboard="Chat" Placeholder="Nome" x:Name="TxtNome" />
+        <Entry Keyboard="Numeric" Placeholder="Quantidade" x:Name="TxtQuantidade" />
 
         <Button Text="Persistir" Clicked="Button_Clicked" />
         <Button Text="Listar" Clicked="Button_Clicked_1"/>
 
 
         <ListView 
-            ItemsSource="{Binding ListaModels}"
-            />
+            ItemsSource="{Binding ListaModels}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Label Text="{Binding Nome}" />
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </StackLayout>
 
 </ContentPage>

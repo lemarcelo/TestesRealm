@@ -1,4 +1,5 @@
 ﻿using Realms;
+using Realms.Schema;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,18 +13,34 @@ namespace TestesRealm
     // Learn more about making custom code visible in the Xamarin.Forms previewer
     // by visiting https://aka.ms/xamarinforms-previewer
     [DesignTimeVisible(false)]
+
     public partial class MainPage : ContentPage, INotifyPropertyChanged
     {
 
-        private ObservableCollection<Model> _listaModels;
-
-        public ObservableCollection<Model> ListaModels
+        private List<Model> _listaModels;
+        public List<Model> ListaModels
         {
             get { return _listaModels; }
-            set { _listaModels = value;
+            set
+            {
+                _listaModels = value;
                 Notify("ListaModels");
             }
         }
+
+
+        private Model _Model;
+        public Model Model
+        {
+            get { return _Model; }
+            set
+            {
+                _Model = value;
+                Notify("Model");
+            }
+        }
+
+
 
 
         public MainPage()
@@ -38,21 +55,19 @@ namespace TestesRealm
         {
             var realm = Realm.GetInstance();
 
-            // Update and persist objects with a thread-safe transaction
+            // Atualiza e persiste os objetos na thread-safe transaction
             realm.Write(() =>
             {
-                realm.Add(new Model { Name = Nome.Text, Age = Convert.ToInt32(Quantidade.Text) });
+                realm.Add(new Model { Nome = TxtNome.Text, Quantidade = Convert.ToInt32(TxtQuantidade.Text) });
             });
         }
         //Pesquisar tabela no Realm
         private void Pesquisar()
         {
             var realm = Realm.GetInstance();
-            var pesquisa = realm.All<Model>().Where(d => d.Age < 2).ToArray();
+            var pesquisa = realm.All<Model>().Where(d => d.Quantidade < 2).ToList();
 
-            ListaModels = new ObservableCollection<Model>(pesquisa.ToList<Model>());
-
-            //var oldDogs = from d in realm.All<Dog>() where d.Age > 8 select d;
+            ListaModels = pesquisa;
 
 
         }
@@ -75,8 +90,7 @@ namespace TestesRealm
 
         protected void Notify(string propertyName)
         {
-            if (this.PropertyChanged != null)
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
 

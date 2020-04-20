@@ -11,7 +11,7 @@ namespace TestesRealm.Models
     // Define your models like regular C# classes
     public class Model : RealmObject
     {
-        public string Name { get; set; }
-        public int Age { get; set; }
+        public string Nome { get; set; }
+        public int Quantidade { get; set; }
     }
 }
